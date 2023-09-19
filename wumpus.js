@@ -35,7 +35,7 @@ function createBoard() {
       } else if (wumpusWorld[row][col] === PLAYER) {
         square.classList.add("player");
       } else {
-        square.classList.add(row % 2 === col % 2 ? "gray" : "green");
+        // square.classList.add(row % 2 === col % 2 ? "gray" : "green");
       }
 
       square.innerHTML = wumpusWorld[row][col];

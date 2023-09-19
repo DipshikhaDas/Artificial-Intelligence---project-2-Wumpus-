@@ -1,8 +1,8 @@
 /* wumpus.css */
 
 #gameboard {
-    width: 500px; /* Adjust the size as needed */
-    height: 500px; /* Adjust the size as needed */
+    width: 700px; /* Adjust the size as needed */
+    height: 700px; /* Adjust the size as needed */
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
@@ -18,10 +18,12 @@
     height: 100%;
     width: 100%;
     font-size: 20px; 
+    background-color: lightgray;
+    border: #000000;
 }
 
 .wumpus {
-    background-color: rgb(110, 110, 98);
+    background-color: green;
     color: #ffffff; 
 }
 
