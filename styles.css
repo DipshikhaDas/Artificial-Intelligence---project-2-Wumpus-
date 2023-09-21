@@ -27,6 +27,13 @@
     color: #ffffff; 
 }
 
+.wumpus-image {
+    /* Set the width and height to match the size of your image */
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    /* Add any other styling properties you want for the Wumpus image */
+  }
+
 .pit {
     background-color: rgb(169, 43, 43);
     color: #ffffff; 
@@ -55,4 +62,11 @@
     fill: rgb(255, 255, 255);
 }
 
+.player{
+    color: wheat;
+}
+
+.pit{
+    color: black;
+}
 
