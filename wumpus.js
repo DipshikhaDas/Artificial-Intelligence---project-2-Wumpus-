@@ -2,23 +2,11 @@ const gameBoard = document.querySelector("#gameboard");
 const playerDisplay = document.querySelector("#pieces");
 const infoDisplay = document.querySelector("#info-display");
 
-// const wumpusWorld = Array(10)
-//   .fill(null)
-//   .map(() => Array(10).fill("")); // Initialize an empty 10x10 grid
-
-// Define symbols for different elements in the Wumpus world
 const EMPTY = "";
 const WUMPUS = "...";
 const PIT = "..";
 const PLAYER = ".";
 const TREASURE = ",";
-
-// Place the Wumpus, pits, and player in the world
-// wumpusWorld[2][3] = WUMPUS;
-// wumpusWorld[5][8] = PIT;
-// wumpusWorld[7][1] = PIT;
-// wumpusWorld[0][0] = PLAYER;
-// wumpusWorld[4][6] = TREASURE;
 
 const elements = [
   { symbol: WUMPUS, count: 1 },
