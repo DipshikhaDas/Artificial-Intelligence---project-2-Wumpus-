@@ -14,8 +14,8 @@ const PLAYER = "H";
 
 // Place the Wumpus, pits, and player in the world
 wumpusWorld[2][3] = WUMPUS; // Example: Wumpus at row 2, column 3
-wumpusWorld[5][8] = PIT;   // Example: Pit at row 5, column 8
-wumpusWorld[7][1] = PIT;   // Example: Pit at row 7, column 1
+wumpusWorld[5][8] = PIT; // Example: Pit at row 5, column 8
+wumpusWorld[7][1] = PIT; // Example: Pit at row 7, column 1
 wumpusWorld[0][0] = PLAYER; // Example: Player at row 0, column 0
 
 function createBoard() {
@@ -44,8 +44,31 @@ function createBoard() {
   }
 }
 
-createBoard();
+function createGameBoard() {
+  for (let row = 0; row < board._maxRows; row++) {
+    for (let col = 0; col < board._maxCols; col++) {
+      const square = document.createElement("div");
+      square.setAttribute("draggable", "true");
+      square.setAttribute("row-id", row);
+      square.setAttribute("col-id", col);
+      square.classList.add("square");
 
+      // Add class based on the content of the cell (Wumpus, Pit, Player, or Empty)
+      if (board._board[row][col].wumpus === true) {
+        square.classList.add("wumpus");
+      } else if (board._board[row][col].pit === true) {
+        square.classList.add("pit");
+      } else if (board._board[row][col].gold === true ) {
+        square.classList.add("gold");
+      } else {
+        // square.classList.add(row % 2 === col % 2 ? "gray" : "green");
+      }
+
+      // square.innerHTML = board._board[row][col];
+      gameBoard.append(square);
+    }
+  }
+}
+// createBoard();
+createGameBoard();
 // let gameBoard2 = new GameBoard();
-
-

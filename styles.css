@@ -37,6 +37,10 @@
     color: #000000; 
 }
 
+.gold {
+    background-color: goldenrod;
+    color: black;
+}
 .empty {
     background-color: #fff5e1;
     color: #000000; 

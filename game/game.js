@@ -25,6 +25,7 @@ const direction = [
   { row: 0, col: -1 },
 ];
 
+const PROB_VAL = 0.005;
 class GameBoard {
   constructor() {
     this._maxRows = 10;
@@ -55,7 +56,7 @@ class GameBoard {
             continue;
           }
           const prob = Math.random();
-          if (prob < 0.05) {
+          if (prob < PROB_VAL) {
             this._wumpus_count--;
             console.log("Wumpus Added", row, col);
             this._board[row][col].wumpus = true;
@@ -93,7 +94,7 @@ class GameBoard {
       for (let row = 0; row < this._maxRows; row++) {
         for (let col = 0; col < this._maxCols; col++) {
           const prob = Math.random();
-          if (prob < 0.05) {
+          if (prob < PROB_VAL) {
             this._gold_count--;
             console.log("Gold Added", row, col);
             this._board[row][col].gold = true;
@@ -118,7 +119,7 @@ class GameBoard {
             continue;
           }
           const prob = Math.random();
-          if (prob < 0.05) {
+          if (prob < PROB_VAL) {
             this._pit_count--;
             console.log("Pit Added", row, col);
             this._board[row][col].pit = true;
