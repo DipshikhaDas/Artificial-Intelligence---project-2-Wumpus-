@@ -46,3 +46,6 @@ function createBoard() {
 
 createBoard();
 
+// let gameBoard2 = new GameBoard();
+
+
