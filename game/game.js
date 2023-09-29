@@ -45,13 +45,20 @@ class GameBoard {
     this._add_gold();
     this._add_wumpus();
     this._add_pits();
+    this._add_player();
   }
 
+  _add_player(){
+    this._board[0][0].player = true;
+  }
   _add_wumpus() {
     let wumpus_locations = [];
     while (this._wumpus_count > 0) {
       for (let row = 0; row < this._maxRows; row++) {
         for (let col = 0; col < this._maxCols; col++) {
+          if (this._ignore_cell(row, col)) {
+            continue;
+          }
           if (this._board[row][col].empty === false) {
             continue;
           }
@@ -93,6 +100,9 @@ class GameBoard {
     while (this._gold_count > 0) {
       for (let row = 0; row < this._maxRows; row++) {
         for (let col = 0; col < this._maxCols; col++) {
+          if (this._ignore_cell(row, col)) {
+            continue;
+          }
           const prob = Math.random();
           if (prob < PROB_VAL) {
             this._gold_count--;
@@ -115,6 +125,10 @@ class GameBoard {
     while (this._pit_count > 0) {
       for (let row = 0; row < this._maxRows; row++) {
         for (let col = 0; col < this._maxCols; col++) {
+          if (this._ignore_cell(row, col)) {
+            continue;
+          }
+
           if (this._board[row][col].empty === false) {
             continue;
           }
@@ -157,6 +171,13 @@ class GameBoard {
   }
   isInBoard(row, col) {
     if (0 <= row && row < this._maxRows && 0 <= col && col < this._maxCols) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  _ignore_cell(row, col) {
+    if (0 <= row && row < 2 && 0 <= col && col < 2) {
       return true;
     } else {
       return false;
