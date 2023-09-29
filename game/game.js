@@ -9,6 +9,7 @@ const CELL_CONTENT = {
 };
 
 class Cell {
+  discovered = false;
   empty = true;
   wumpus = false;
   player = false;
@@ -40,6 +41,9 @@ class GameBoard {
       for (let col = 0; col < this._maxCols; col++) {
         this._board[row].push(null);
         this._board[row][col] = new Cell();
+        if (this._ignore_cell(row, col)) {
+          this._board[row][col].discovered = true;
+        }
       }
     }
     this._add_gold();
