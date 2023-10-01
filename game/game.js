@@ -17,6 +17,7 @@ class Cell {
   pit = false;
   stench = false;
   gold = false;
+  glitter = false;
 }
 
 const direction = [
@@ -34,7 +35,9 @@ class GameBoard {
     this._board = [];
     this._wumpus_count = 1;
     this._pit_count = 10;
-    this._gold_count = 1;
+    this._max_golds = 5;
+    this._gold_count = this._max_golds;
+    this.arrow_count = 1;
 
     for (let row = 0; row < this._maxRows; row++) {
       this._board.push([]);
@@ -52,7 +55,7 @@ class GameBoard {
     this._add_player();
   }
 
-  _add_player(){
+  _add_player() {
     this._board[0][0].player = true;
   }
   _add_wumpus() {
@@ -69,7 +72,7 @@ class GameBoard {
           const prob = Math.random();
           if (prob < PROB_VAL) {
             this._wumpus_count--;
-            console.log("Wumpus Added", row, col);
+            // console.log("Wumpus Added", row, col);
             this._board[row][col].wumpus = true;
             this._board[row][col].empty = false;
 
@@ -101,6 +104,8 @@ class GameBoard {
   }
 
   _add_gold() {
+    let gold_locations = [];
+
     while (this._gold_count > 0) {
       for (let row = 0; row < this._maxRows; row++) {
         for (let col = 0; col < this._maxCols; col++) {
@@ -110,8 +115,10 @@ class GameBoard {
           const prob = Math.random();
           if (prob < PROB_VAL) {
             this._gold_count--;
-            console.log("Gold Added", row, col);
+            // console.log("Gold Added", row, col);
+            gold_locations.push({ row: row, col: col });
             this._board[row][col].gold = true;
+            this._board[row][col].glitter = true;
             this._board[row][col].empty = false;
             break;
           }
@@ -123,6 +130,11 @@ class GameBoard {
     }
   }
 
+  take_gold(row, col) {
+    const cell = this._board[row][col];
+    cell.gold = false;
+    cell.glitter = false;
+  }
   _add_pits() {
     let pit_locations = [];
 
@@ -139,7 +151,7 @@ class GameBoard {
           const prob = Math.random();
           if (prob < PROB_VAL) {
             this._pit_count--;
-            console.log("Pit Added", row, col);
+            // console.log("Pit Added", row, col);
             this._board[row][col].pit = true;
             this._board[row][col].empty = false;
             this._board[row][col].stench = false;

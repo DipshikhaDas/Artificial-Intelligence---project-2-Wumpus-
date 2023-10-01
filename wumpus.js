@@ -3,7 +3,6 @@ const playerDisplay = document.querySelector("#pieces");
 const infoDisplay = document.querySelector("#info-display");
 const playerPoints = document.querySelector("#player-score");
 
-
 let playerPosition = { row: 0, col: 0 };
 let game_over = false;
 let playerScore = 0;
@@ -13,9 +12,7 @@ function discoverCell(row, col) {
   cell.discovered = true;
   cell.player = true;
 
-  const square = gameBoard.querySelector(
-    `[row-id="${row}"][col-id="${col}"]`
-  );
+  const square = gameBoard.querySelector(`[row-id="${row}"][col-id="${col}"]`);
 
   square.classList.add("square");
 
@@ -64,7 +61,17 @@ function updateInfoDisplay(row, col) {
   if (cell.breeze) {
     infoDisplay.innerHTML += "You feel a breeze <br>";
   }
-  if (cell.wumpus){
+  if (cell.glitter) {
+    infoDisplay.innerHTML += "You see glitter";
+    const square = gameBoard.querySelector(
+      `[row-id="${row}"][col-id="${col}"]`
+    );
+    square.classList.remove("gold");
+    board.take_gold(row, col);
+    playerScore += 1000;
+    alert("You have taken a gold");
+  }
+  if (cell.wumpus) {
     playerScore -= 1000;
     game_over = true;
     alert("You have been eaten by the Wumpus");
@@ -74,7 +81,7 @@ function updateInfoDisplay(row, col) {
     game_over = true;
     alert("You fell into a Pit");
   }
-  playerPoints.innerHTML = `Player Score: "${playerScore}"`;
+  playerPoints.innerHTML = `Player Score: ${playerScore}`;
 }
 
 function updatePlayerPosition(newRow, newCol) {

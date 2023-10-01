@@ -1,6 +1,7 @@
 let aiBoardVisited = [];
 let aiPitScore = [];
 let aiWumpusScore = [];
+let aiGoldScore = [];
 let aiEvaluated = [];
 let safetyCells = [];
 
@@ -141,6 +142,24 @@ function evaluateVisitedCells(curRow, curCol, prevRow, prevCol) {
   return;
 }
 
+function killWumpus() {
+	if (board.arrow_count <= 0) {
+		return;
+	}
+	let probable_wumpus_cells = [];
+
+	for (let row = 0; row < board._maxRows; row++) {
+		for (let col = 0; col < board._maxCols; col++) {
+			if (aiWumpusScore[row][col] >= 30) {
+				probable_wumpus_cells.push({row: row, col: col});
+			}
+		}
+	}
+
+	if (probable_wumpus_cells.length > 0) {
+
+	}
+}
 function initAiPlayer() {
   resetAiScore();
   evaluateVisitedCells(0, 1, 0, 0);
