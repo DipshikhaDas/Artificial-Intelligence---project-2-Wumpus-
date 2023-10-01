@@ -33,7 +33,7 @@ class GameBoard {
     this._maxRows = 10;
     this._maxCols = 10;
     this._board = [];
-    this._wumpus_count = 1;
+    this._wumpus_count = 10;
     this._pit_count = 10;
     this._max_golds = 5;
     this._gold_count = this._max_golds;

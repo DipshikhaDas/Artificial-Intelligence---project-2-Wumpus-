@@ -7,6 +7,18 @@ let playerPosition = { row: 0, col: 0 };
 let game_over = false;
 let playerScore = 0;
 
+function addPlayerImg(row, col) {
+  const square = gameBoard.querySelector(`[row-id="${row}"][col-id="${col}"]`);
+  const playerImg = document.createElement("img");
+
+  playerImg.src = "player.png";
+  playerImg.alt = "player";
+  playerImg.style.maxWidth = "100%";
+  playerImg.style.maxHeight = "100%";
+
+  square.appendChild(playerImg);
+}
+
 function discoverCell(row, col) {
   cell = board._board[row][col];
   cell.discovered = true;
@@ -22,8 +34,16 @@ function discoverCell(row, col) {
     square.classList.add("pit");
   } else if (board._board[row][col].gold === true) {
     square.classList.add("gold");
-  } else {
-    // square.classList.add(row % 2 === col % 2 ? "gray" : "green");
+  }
+  square.innerHTML = "";
+  if (!(playerPosition.row == row && playerPosition.col == col)) {
+    
+    if (board._board[row][col].breeze === true) {
+      square.innerHTML += "Breeze <br>";
+    }
+    if (board._board[row][col].stench === true) {
+      square.innerHTML += "Stench <br>";
+    }
   }
 }
 
@@ -48,6 +68,7 @@ function createGameBoard() {
       gameBoard.append(square);
     }
   }
+  addPlayerImg(0, 0);
 }
 
 function updateInfoDisplay(row, col) {
@@ -74,18 +95,24 @@ function updateInfoDisplay(row, col) {
   if (cell.wumpus) {
     playerScore -= 1000;
     game_over = true;
-    alert("You have been eaten by the Wumpus");
+    alert("Game over!!! You have been eaten by the Wumpus");
   }
   if (cell.pit) {
     playerScore -= 1000;
     game_over = true;
-    alert("You fell into a Pit");
+    alert("Game over!!! You fell into a Pit");
   }
   playerPoints.innerHTML = `Player Score: ${playerScore}`;
 }
 
 function updatePlayerPosition(newRow, newCol) {
   const prevPlayerSquare = gameBoard.querySelector(".player");
+  const prevPlayerImage = gameBoard.querySelector("img");
+
+  if (prevPlayerImage) {
+    prevPlayerImage.remove();
+  }
+
   prevPlayerSquare.classList.remove("player");
 
   const newPlayerSquare = gameBoard.querySelector(
@@ -95,11 +122,21 @@ function updatePlayerPosition(newRow, newCol) {
   // console.log(newPlayerSquare);
 
   newPlayerSquare.classList.remove("covered");
+
+  const playerOldRow = playerPosition.row;
+  const playerOldCol = playerPosition.col;
+
   playerPosition.row = newRow;
   playerPosition.col = newCol;
+  console.log(playerOldRow, playerOldCol, playerPosition);
 
   discoverCell(newRow, newCol);
+  discoverCell(playerOldRow, playerOldCol);
+
   newPlayerSquare.classList.add("player");
+
+  addPlayerImg(newRow, newCol);
+
   updateInfoDisplay(newRow, newCol);
 }
 
