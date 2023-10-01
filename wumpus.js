@@ -19,6 +19,25 @@ function addPlayerImg(row, col) {
   square.appendChild(playerImg);
 }
 
+function changeCellAfterWumpusKill(row, col) {
+  const cell = board._board[row][col];
+  if (cell.discovered === false) {
+    return;
+  }
+  const square = gameBoard.querySelector(`[row-id="${row}"][col-id="${col}"]`);
+
+  square.classList.add("square");
+  square.innerHTML = "";
+  if (!(playerPosition.row == row && playerPosition.col == col)) {
+    if (board._board[row][col].breeze === true) {
+      square.innerHTML += "Breeze <br>";
+    }
+    if (board._board[row][col].stench === true) {
+      square.innerHTML += "Stench <br>";
+    }
+  }
+}
+
 function discoverCell(row, col) {
   cell = board._board[row][col];
   cell.discovered = true;
@@ -37,7 +56,6 @@ function discoverCell(row, col) {
   }
   square.innerHTML = "";
   if (!(playerPosition.row == row && playerPosition.col == col)) {
-    
     if (board._board[row][col].breeze === true) {
       square.innerHTML += "Breeze <br>";
     }
@@ -128,7 +146,7 @@ function updatePlayerPosition(newRow, newCol) {
 
   playerPosition.row = newRow;
   playerPosition.col = newCol;
-  console.log(playerOldRow, playerOldCol, playerPosition);
+  // console.log(playerOldRow, playerOldCol, playerPosition);
 
   discoverCell(newRow, newCol);
   discoverCell(playerOldRow, playerOldCol);

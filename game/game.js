@@ -1,12 +1,4 @@
-const CELL_CONTENT = {
-  EMPTY: 0,
-  WUMPUS: 1,
-  PLAYER: 2,
-  BREEZE: 3,
-  PIT: 4,
-  STENCH: 5,
-  ARROW: 6,
-};
+// import { readFile } from "fs";
 
 class Cell {
   discovered = false;
@@ -29,11 +21,11 @@ const direction = [
 
 const PROB_VAL = 0.005;
 class GameBoard {
-  constructor() {
+  method1() {
     this._maxRows = 10;
     this._maxCols = 10;
     this._board = [];
-    this._wumpus_count = 10;
+    this._wumpus_count = 4;
     this._pit_count = 10;
     this._max_golds = 5;
     this._gold_count = this._max_golds;
@@ -54,12 +46,21 @@ class GameBoard {
     this._add_pits();
     this._add_player();
   }
+  // method2() {
+  //   readFile("in.txt", "utf8", (err, data) => {
+  //     console.log(data);
+  //   });
+  // }
+  constructor() {
+    this.method1();
+    // this.method2();
+  }
 
   _add_player() {
     this._board[0][0].player = true;
   }
   _add_wumpus() {
-    let wumpus_locations = [];
+    // let wumpus_locations = [];
     while (this._wumpus_count > 0) {
       for (let row = 0; row < this._maxRows; row++) {
         for (let col = 0; col < this._maxCols; col++) {
@@ -76,10 +77,10 @@ class GameBoard {
             this._board[row][col].wumpus = true;
             this._board[row][col].empty = false;
 
-            wumpus_locations.push({
-              row: row,
-              col: col,
-            });
+            // wumpus_locations.push({
+            //   row: row,
+            //   col: col,
+            // });
 
             break;
           }
@@ -90,19 +91,39 @@ class GameBoard {
       }
     }
 
-    // adding the stench
+    this.add_stench();
+  }
+  add_stench() {
+    let wumpus_locations = [];
+
+    for (let row = 0; row < this._maxRows; row++) {
+      for (let col = 0; col < this._maxCols; col++) {
+        if (this._board[row][col].wumpus === true) {
+          wumpus_locations.push({
+            row: row,
+            col: col,
+          });
+        }
+      }
+    }
+
+    // console.log(wumpus_locations.length);
     for (const loc of wumpus_locations) {
       for (const dir of direction) {
         let new_row = loc.row + dir.row;
         let new_col = loc.col + dir.col;
 
-        if (this.isInBoard(new_row, new_col)) {
+        if (
+          this.isInBoard(new_row, new_col) &&
+          this._board[new_row][new_col].wumpus === false &&
+          this._board[new_row][new_col].pit === false
+        ) {
           this._board[new_row][new_col].stench = true;
+          // console.log("stench added");
         }
       }
     }
   }
-
   _add_gold() {
     let gold_locations = [];
 
