@@ -1,6 +1,8 @@
 const gameBoard = document.querySelector("#gameboard");
 const playerDisplay = document.querySelector("#pieces");
 const infoDisplay = document.querySelector("#info-display");
+const playerPoints = document.querySelector("#player-score");
+
 
 let playerPosition = { row: 0, col: 0 };
 let game_over = false;
@@ -55,6 +57,7 @@ function updateInfoDisplay(row, col) {
   infoDisplay.innerHTML = "";
   cell = board._board[row][col];
 
+  playerScore--;
   if (cell.stench) {
     infoDisplay.innerHTML += "You smell a stench <br>";
   }
@@ -62,13 +65,16 @@ function updateInfoDisplay(row, col) {
     infoDisplay.innerHTML += "You feel a breeze <br>";
   }
   if (cell.wumpus){
-    alert("You have been eaten by the Wumpus");
+    playerScore -= 1000;
     game_over = true;
+    alert("You have been eaten by the Wumpus");
   }
   if (cell.pit) {
-    alert("You fell into a Pit");
+    playerScore -= 1000;
     game_over = true;
+    alert("You fell into a Pit");
   }
+  playerPoints.innerHTML = `Player Score: "${playerScore}"`;
 }
 
 function updatePlayerPosition(newRow, newCol) {
