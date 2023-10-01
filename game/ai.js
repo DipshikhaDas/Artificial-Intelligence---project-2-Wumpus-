@@ -124,7 +124,7 @@ function evaluateVisitedCells(curRow, curCol, prevRow, prevCol) {
     if (prevCell.stench) {
       evaluateWumpusPossibility(prevRow, prevCol, curRow, curCol);
     }
-    aiEvaluated[curRow][curCol] = true;
+    // aiEvaluated[curRow][curCol] = true;
     safetyCells.push({
       row: curRow,
       col: curCol,
@@ -140,25 +140,6 @@ function evaluateVisitedCells(curRow, curCol, prevRow, prevCol) {
     evaluateVisitedCells(newRow, newCol, curRow, curCol);
   }
   return;
-}
-
-function killWumpus() {
-	if (board.arrow_count <= 0) {
-		return;
-	}
-	let probable_wumpus_cells = [];
-
-	for (let row = 0; row < board._maxRows; row++) {
-		for (let col = 0; col < board._maxCols; col++) {
-			if (aiWumpusScore[row][col] >= 30) {
-				probable_wumpus_cells.push({row: row, col: col});
-			}
-		}
-	}
-
-	if (probable_wumpus_cells.length > 0) {
-
-	}
 }
 function initAiPlayer() {
   resetAiScore();
@@ -199,7 +180,7 @@ function bfs(finalRow, finalCol) {
       if (board.isInBoard(newRow, newCol)) {
         if (!visited[newRow][newCol]) {
           visited[newRow][newCol] = true;
-          console.log(newRow, newCol);
+          // console.log(newRow, newCol);
 
           if (newRow === finalRow && newCol === finalCol) {
             found_goal = true;
@@ -228,12 +209,85 @@ function bfs(finalRow, finalCol) {
   }
 }
 
+async function killWumpus() {
+	return new Promise(async (resolve, reject) => {
+		if (board.arrow_count <= 0) {
+			console.log("returning, no arrow");
+      resolve();
+      return;
+    }
+    let probable_wumpus_cells = [];
+		
+    for (let row = 0; row < board._maxRows; row++) {
+			for (let col = 0; col < board._maxCols; col++) {
+				if (aiWumpusScore[row][col] >= 20) {
+					console.log("adf");
+          probable_wumpus_cells.push({ row: row, col: col });
+        }
+      }
+    }
+
+    if (probable_wumpus_cells.length > 0) {
+      const randomIndex = Math.floor(
+        Math.random() * probable_wumpus_cells.length
+      );
+      const selectedCell = probable_wumpus_cells[randomIndex];
+      let goToTarget = null;
+      for (const dir of direction) {
+        const newRow = selectedCell.row + dir.row;
+        const newCol = selectedCell.col + dir.col;
+
+        if (
+          board.isInBoard(newRow, newCol) &&
+          board._board[newRow][newCol].discovered
+        ) {
+          goToTarget = { row: newRow, col: newCol };
+          break;
+        }
+      }
+      if (goToTarget) {
+        console.log("going to target");
+        path = bfs(goToTarget.row, goToTarget.col);
+        for (const p of path) {
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          updatePlayerPosition(p.row, p.col);
+        }
+
+        board.arrow_count--;
+				playerScore -= 10;
+        console.log("You shot an arrow");
+        if (board._board[selectedCell.row][selectedCell.col].wumpus) {
+          alert("You have killed a wumpus");
+          console.log("You have killed a wumpus");
+          board._board[selectedCell.row][selectedCell.col].wumpus = false;
+          board.add_stench();
+          changeCellAfterWumpusKill(selectedCell.row, selectedCell.col);
+          for (const dir of direction) {
+            const newRow = selectedCell.row + dir.row;
+            const newCol = selectedCell.col + dir.col;
+
+            if (board.isInBoard(newRow, newCol)) {
+              changeCellAfterWumpusKill(newRow, newCol);
+            }
+          }
+        } else {
+          alert("You have missed the wumpus");
+          console.log("You have missed the wumpus");
+        }
+      }
+    }
+    resolve();
+  });
+}
+
 async function aiMove() {
   while (!game_over) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     resetAiScore();
+    // console.log("Evaluate board");
     evaluateVisitedCells(0, 1, 0, 0);
 
+    await killWumpus();
     //  console.log(safetyCells);
 
     safetyCells.sort((a, b) => {
