@@ -1,58 +1,70 @@
 /* wumpus.css */
 
 #gameboard {
-    width: 700px; /* Adjust the size as needed */
-    height: 700px; /* Adjust the size as needed */
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-    gap: 2px;
-    border: 2px solid black; 
-  
+  width: 700px; /* Adjust the size as needed */
+  height: 700px; /* Adjust the size as needed */
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 2px;
+  border: 2px solid black;
 }
 
 .square {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    font-size: 20px; 
-    background-color: lightgray;
-    border: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-size: 20px;
+  background-color: lightgray;
+  border: #000000;
+}
+
+.covered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-size: 20px;
+  background-color: darkslategrey;
+  border:1px solid #000000;
 }
 
 .wumpus {
-    background-color: green;
-    color: #ffffff; 
+  background-color: green;
+  color: #ffffff;
 }
 
 .pit {
-    background-color: rgb(169, 43, 43);
-    color: #ffffff; 
+  background-color: rgb(169, 43, 43);
+  color: #ffffff;
 }
 
 .player {
-    background-color: #d2b48c;
-    color: #000000; 
+  background-color: rgba(173, 216, 230, 0.6);
+  color: #000000;
 }
 
+.gold {
+  background-color: goldenrod;
+  color: black;
+}
 .empty {
-    background-color: #fff5e1;
-    color: #000000; 
+  background-color: #fff5e1;
+  color: #000000;
 }
 
 .gray {
-    background-color: #bababa;
-    color: #000000; 
+  background-color: #bababa;
+  color: #000000;
 }
 
 .black {
-    fill: rgb(28, 28, 28);
+  fill: rgb(28, 28, 28);
 }
 
 .white {
-    fill: rgb(255, 255, 255);
+  fill: rgb(255, 255, 255);
 }
-
-
