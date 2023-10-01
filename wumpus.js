@@ -3,6 +3,8 @@ const playerDisplay = document.querySelector("#pieces");
 const infoDisplay = document.querySelector("#info-display");
 
 let playerPosition = { row: 0, col: 0 };
+let game_over = false;
+let playerScore = 0;
 
 function discoverCell(row, col) {
   cell = board._board[row][col];
@@ -58,6 +60,14 @@ function updateInfoDisplay(row, col) {
   }
   if (cell.breeze) {
     infoDisplay.innerHTML += "You feel a breeze <br>";
+  }
+  if (cell.wumpus){
+    alert("You have been eaten by the Wumpus");
+    game_over = true;
+  }
+  if (cell.pit) {
+    alert("You fell into a Pit");
+    game_over = true;
   }
 }
 
