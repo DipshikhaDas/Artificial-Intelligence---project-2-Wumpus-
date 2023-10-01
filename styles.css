@@ -43,8 +43,8 @@
 }
 
 .player {
-  background-color: rgba(173, 216, 230, 0.6);
-  color: #000000;
+  background-color: white;
+  /* color: #000000; */
 }
 
 .gold {
